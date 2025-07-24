@@ -1,4 +1,4 @@
-import { WidgetConfig, WidgetInstance, ChatMessage, ApiResponse } from './types';
+import { WidgetConfig, WidgetInstance, ChatMessage, ApiResponse, ExampleQuestion } from './types';
 import { defaultConfig } from './config';
 import './styles.css';
 
@@ -105,7 +105,20 @@ export class OpenDocsRAGWidget implements WidgetInstance {
   }
 
   private createExampleQuestions(): string {
-    const questions = this.config.modalExampleQuestions!.split(',').map((q) => q.trim());
+    if (!this.config.modalExampleQuestions) return '';
+
+    let questions: string[] = [];
+    
+    if (typeof this.config.modalExampleQuestions === 'string') {
+      // Handle legacy string format
+      questions = this.config.modalExampleQuestions.split(',').map((q) => q.trim());
+    } else if (Array.isArray(this.config.modalExampleQuestions)) {
+      // Handle new structured format
+      questions = this.config.modalExampleQuestions.map((q: ExampleQuestion) => q.text);
+    }
+
+    if (questions.length === 0) return '';
+
     const questionButtonStyle = this.getExampleQuestionButtonStyles();
 
     return `
