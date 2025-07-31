@@ -1,4 +1,4 @@
-import { WidgetConfig } from './types';
+import { WidgetConfig, ExampleQuestion } from './types';
 
 /**
  * Extracts configuration from data attributes on the script tag
@@ -46,6 +46,23 @@ export function parseConfigFromScript(): WidgetConfig | null {
     }
   }
 
+  // Parse example questions - support both string and JSON formats
+  let modalExampleQuestions: string | ExampleQuestion[] | undefined;
+  if (dataset.modalExampleQuestions) {
+    try {
+      // Try to parse as JSON first
+      const parsed = JSON.parse(dataset.modalExampleQuestions);
+      if (Array.isArray(parsed)) {
+        modalExampleQuestions = parsed;
+      } else {
+        modalExampleQuestions = dataset.modalExampleQuestions;
+      }
+    } catch {
+      // If JSON parsing fails, treat as string
+      modalExampleQuestions = dataset.modalExampleQuestions;
+    }
+  }
+
   const config: WidgetConfig = {
     // Required parameters
     websiteId: dataset.websiteId!,
@@ -56,7 +73,7 @@ export function parseConfigFromScript(): WidgetConfig | null {
     // Optional parameters
     modalTitle: dataset.modalTitle,
     modalDisclaimer: dataset.modalDisclaimer,
-    modalExampleQuestions: dataset.modalExampleQuestions,
+    modalExampleQuestions,
     modalExampleQuestionsTitle: dataset.modalExampleQuestionsTitle,
     modalAskAiInputPlaceholder: dataset.modalAskAiInputPlaceholder,
 
@@ -123,6 +140,6 @@ export const defaultConfig: Partial<WidgetConfig> = {
   exampleQuestionButtonFontSize: '16px',
   exampleQuestionButtonHeight: '100%',
   exampleQuestionButtonWidth: '100%',
-  fontFamily: '-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif',
+  fontFamily: 'Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif',
   apiEndpoint: 'http://100.28.126.254:8000/question'
 };

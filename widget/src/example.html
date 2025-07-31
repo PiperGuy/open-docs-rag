@@ -1,239 +1,287 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Open Docs RAG Widget - Example</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenDocs RAG Widget Example</title>
     <style>
-      body {
-        font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f8f9fa;
-      }
-
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 40px 20px;
-      }
-
-      .hero {
-        text-align: center;
-        margin-bottom: 60px;
-      }
-
-      .hero h1 {
-        color: #1d4716;
-        font-size: 3rem;
-        margin-bottom: 1rem;
-      }
-
-      .hero p {
-        font-size: 1.2rem;
-        color: #6c757d;
-        max-width: 600px;
-        margin: 0 auto;
-      }
-
-      .features {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 30px;
-        margin-bottom: 60px;
-      }
-
-      .feature {
-        background: white;
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      }
-
-      .feature h3 {
-        color: #1d4716;
-        margin-bottom: 15px;
-      }
-
-      .demo-buttons {
-        display: flex;
-        gap: 15px;
-        justify-content: center;
-        flex-wrap: wrap;
-        margin-bottom: 40px;
-      }
-
-      .demo-btn {
-        padding: 12px 24px;
-        background-color: #1d4716;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-      }
-
-      .demo-btn:hover {
-        background-color: #0f2a0b;
-        transform: translateY(-2px);
-      }
-
-      .code-example {
-        background: #f8f9fa;
-        border: 1px solid #e9ecef;
-        border-radius: 8px;
-        padding: 20px;
-        margin: 20px 0;
-        overflow-x: auto;
-      }
-
-      .code-example pre {
-        margin: 0;
-        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-        font-size: 14px;
-        line-height: 1.4;
-      }
-
-      .section {
-        background: white;
-        padding: 40px;
-        border-radius: 12px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        margin-bottom: 30px;
-      }
-
-      .section h2 {
-        color: #1d4716;
-        margin-bottom: 20px;
-      }
+        body {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 24px;
+            border-radius: 12px;
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+        }
+        
+        .section h2 {
+            color: #495057;
+            margin-top: 0;
+            font-weight: 500;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 16px;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+            margin: 16px 0;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .feature-list li:before {
+            content: "✓";
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+        
+        .demo-buttons {
+            display: flex;
+            gap: 16px;
+            margin: 24px 0;
+            flex-wrap: wrap;
+        }
+        
+        .demo-button {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        }
+        
+        .demo-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+        }
+        
+        .demo-button.secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+        }
+        
+        .demo-button.secondary:hover {
+            box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <div class="container">
-      <div class="hero">
-        <h1>Open Docs RAG Widget</h1>
-        <p>A customizable AI-powered documentation widget that brings intelligent assistance to your website</p>
-      </div>
-
-      <div class="demo-buttons">
-        <button class="demo-btn" id="ai-button-ingress-button">Open AI Assistant</button>
-        <button
-          class="demo-btn"
-          onclick="window.OpenDocsRAGWidget?.create({
-                websiteId: 'demo-123',
-                projectName: 'Demo Project',
-                projectColor: '#ff6b6b',
-                projectLogo: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSIjZmY2YjZiIi8+Cjwvc3ZnPgo=',
-                modalExampleQuestions: 'What is this demo?, How does it work?, Can I customize it?'
-            }).open()"
-        >
-          Create Custom Widget
-        </button>
-      </div>
-
-      <div class="features">
-        <div class="feature">
-          <h3>🎨 Highly Customizable</h3>
-          <p>Configure colors, styling, behavior, and content through simple data attributes</p>
+        <h1>🤖 OpenDocs RAG Widget - Enhanced Example</h1>
+        
+        <div class="section">
+            <h2>✨ New Features</h2>
+            <ul class="feature-list">
+                <li><strong>Config-driven questions:</strong> Support for both string and structured JSON formats</li>
+                <li><strong>Beautiful Roboto font:</strong> Modern typography throughout the interface</li>
+                <li><strong>Enhanced animations:</strong> Smooth transitions and micro-interactions</li>
+                <li><strong>Improved styling:</strong> Gradient backgrounds, better shadows, and modern design</li>
+                <li><strong>Better accessibility:</strong> Focus states and keyboard navigation</li>
+                <li><strong>Mobile responsive:</strong> Optimized for all screen sizes</li>
+            </ul>
         </div>
-        <div class="feature">
-          <h3>📱 Mobile Responsive</h3>
-          <p>Works seamlessly on desktop, tablet, and mobile devices with optimized layouts</p>
-        </div>
-        <div class="feature">
-          <h3>🚀 Easy Integration</h3>
-          <p>Use as npm package or include via script tag. No complex setup required</p>
-        </div>
-      </div>
 
-      <div class="section">
-        <h2>Script Tag Usage</h2>
-        <p>Include the widget with a simple script tag and configure it with data attributes:</p>
-        <div class="code-example">
-          <pre>
-&lt;script
-  async
-  src="https://your-domain.com/open-docs-rag-widget.bundle.js"
-  data-website-id="your-website-id"
-  data-project-name="Your Project"
-  data-project-color="#1D4716"
-  data-project-logo="/logo.svg"
-  data-modal-example-questions="How to get started?, How to deploy?, API documentation"
-  data-modal-disclaimer="This is an AI assistant for your documentation."
-  data-modal-disclaimer-bg-color="#F1FDD2"
-  data-api-endpoint="/api/chat"
-&gt;&lt;/script&gt;</pre
-          >
+        <div class="section">
+            <h2>🎯 Demo Buttons</h2>
+            <div class="demo-buttons">
+                <button class="demo-button" onclick="openWidget1()">Open Widget (Legacy Format)</button>
+                <button class="demo-button secondary" onclick="openWidget2()">Open Widget (New Format)</button>
+                <button class="demo-button" onclick="openWidget3()">Open Widget (Custom Questions)</button>
+            </div>
         </div>
-      </div>
 
-      <div class="section">
-        <h2>NPM Package Usage</h2>
-        <p>Install and use programmatically in your JavaScript/TypeScript project:</p>
-        <div class="code-example">
-          <pre>npm install open-docs-rag-widget</pre>
-        </div>
-        <div class="code-example">
-          <pre>
-import { createWidget } from 'open-docs-rag-widget';
-
-const widget = createWidget({
-  websiteId: 'your-website-id',
-  projectName: 'Your Project',
-  projectColor: '#1D4716',
-  projectLogo: '/logo.svg',
-  modalExampleQuestions: 'How to get started?, How to deploy?',
-  apiEndpoint: '/api/chat'
-});
-
-// Open the widget programmatically
-widget.open();</pre
-          >
-        </div>
-      </div>
-
-      <div class="section">
-        <h2>Custom Trigger Example</h2>
-        <p>You can hide the default button and trigger the modal from your own elements:</p>
-        <div class="code-example">
-          <pre>
-&lt;script
-  data-button-hide="true"
-  data-modal-override-open-id="my-custom-button"
-  // ... other config
+        <div class="section">
+            <h2>📝 Configuration Examples</h2>
+            
+            <h3>1. Legacy String Format (Backward Compatible)</h3>
+            <div class="code-block">
+&lt;script 
+    src="widget.js" 
+    data-website-id="demo-site"
+    data-project-name="Demo Project"
+    data-project-color="#007bff"
+    data-project-logo="https://via.placeholder.com/32x32/007bff/ffffff?text=D"
+    data-modal-example-questions="What is this project about?, How do I get started?, What are the main features?"
 &gt;&lt;/script&gt;
+            </div>
 
-&lt;button id="my-custom-button"&gt;Ask AI&lt;/button&gt;</pre
-          >
+            <h3>2. New Structured JSON Format</h3>
+            <div class="code-block">
+&lt;script 
+    src="widget.js" 
+    data-website-id="demo-site"
+    data-project-name="Demo Project"
+    data-project-color="#007bff"
+    data-project-logo="https://via.placeholder.com/32x32/007bff/ffffff?text=D"
+    data-modal-example-questions='[
+        {"text": "What is this project about?", "category": "general"},
+        {"text": "How do I get started?", "category": "getting-started"},
+        {"text": "What are the main features?", "category": "features"},
+        {"text": "How do I configure the widget?", "category": "configuration"}
+    ]'
+&gt;&lt;/script&gt;
+            </div>
+
+            <h3>3. Advanced Configuration with Custom Styling</h3>
+            <div class="code-block">
+&lt;script 
+    src="widget.js" 
+    data-website-id="demo-site"
+    data-project-name="Advanced Demo"
+    data-project-color="#6366f1"
+    data-project-logo="https://via.placeholder.com/32x32/6366f1/ffffff?text=A"
+    data-modal-title="AI Assistant Pro"
+    data-modal-example-questions-title="💡 Try asking:"
+    data-modal-ask-ai-input-placeholder="Ask me anything about this project..."
+    data-font-family="Roboto, sans-serif"
+    data-modal-title-font-size="24px"
+    data-example-question-button-font-size="15px"
+    data-example-question-button-padding-x="20px"
+    data-example-question-button-padding-y="12px"
+    data-modal-example-questions='[
+        {"text": "🚀 How do I deploy this project?", "category": "deployment"},
+        {"text": "⚙️ What are the configuration options?", "category": "config"},
+        {"text": "📚 Where can I find documentation?", "category": "docs"},
+        {"text": "🛠️ How do I customize the widget?", "category": "customization"}
+    ]'
+&gt;&lt;/script&gt;
+            </div>
         </div>
-      </div>
+
+        <div class="section">
+            <h2>🎨 Styling Improvements</h2>
+            <div class="highlight">
+                <strong>Key visual enhancements:</strong>
+                <ul>
+                    <li>Roboto font family for modern typography</li>
+                    <li>Gradient backgrounds and improved shadows</li>
+                    <li>Smooth animations and transitions</li>
+                    <li>Better spacing and padding</li>
+                    <li>Enhanced hover effects and micro-interactions</li>
+                    <li>Improved mobile responsiveness</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔧 API Integration</h2>
+            <p>The widget now supports both legacy string format and new structured JSON format for example questions. The structured format allows for:</p>
+            <ul>
+                <li><strong>Categories:</strong> Group questions by topic or purpose</li>
+                <li><strong>Icons:</strong> Add visual indicators to questions (coming soon)</li>
+                <li><strong>Extensibility:</strong> Easy to add more properties in the future</li>
+            </ul>
+        </div>
     </div>
 
-    <!-- Widget script with example configuration -->
-    <script
-      async
-      src="/open-docs-rag-widget.bundle.js"
-      data-website-id="example-website-123"
-      data-project-name="Inferless"
-      data-project-color="#1D4716"
-      data-project-logo="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSIjMUQ0NzE2Ii8+Cjwvc3ZnPgo="
-      data-modal-example-questions-title="Suggested questions:"
-      data-modal-example-questions="How to deploy via CLI?, How to accept Input and return Output in app.py?, How to use python packages with Inferless?"
-      data-modal-disclaimer="This is a custom LLM for answering questions about Inferless. Answers are based on the contents of the documentation. This feature is experimental - rate the answers to let us know what you think!"
-      data-modal-disclaimer-bg-color="#F1FDD2"
-      data-modal-disclaimer-font-size="14px"
-      data-modal-disclaimer-text-color="#3F4254"
-      data-example-question-button-padding-x="16px"
-      data-example-question-button-padding-y="8px"
-      data-example-question-button-border="1px solid #DEE2E6"
-      data-example-question-button-text-color="#3F4254"
-      data-example-question-button-font-size="16px"
-      data-modal-ask-ai-input-placeholder="Hello hi, how can I help you today?"
-      data-modal-title-font-size="20px"
-      data-button-hide="true"
-      data-modal-override-open-id="ai-button-ingress-button"
-      data-api-endpoint="http://100.28.126.254:8000/question"
-    ></script>
-  </body>
+    <!-- Widget Scripts -->
+    <script>
+        // Example 1: Legacy string format
+        function openWidget1() {
+            const script = document.createElement('script');
+            script.src = 'widget.js';
+            script.setAttribute('data-website-id', 'demo-legacy');
+            script.setAttribute('data-project-name', 'Legacy Demo');
+            script.setAttribute('data-project-color', '#007bff');
+            script.setAttribute('data-project-logo', 'https://via.placeholder.com/32x32/007bff/ffffff?text=L');
+            script.setAttribute('data-modal-example-questions', 'What is this project about?, How do I get started?, What are the main features?');
+            script.setAttribute('data-modal-open-by-default', 'true');
+            document.head.appendChild(script);
+        }
+
+        // Example 2: New structured format
+        function openWidget2() {
+            const questions = [
+                { text: "What is this project about?", category: "general" },
+                { text: "How do I get started?", category: "getting-started" },
+                { text: "What are the main features?", category: "features" },
+                { text: "How do I configure the widget?", category: "configuration" }
+            ];
+
+            const script = document.createElement('script');
+            script.src = 'widget.js';
+            script.setAttribute('data-website-id', 'demo-structured');
+            script.setAttribute('data-project-name', 'Structured Demo');
+            script.setAttribute('data-project-color', '#28a745');
+            script.setAttribute('data-project-logo', 'https://via.placeholder.com/32x32/28a745/ffffff?text=S');
+            script.setAttribute('data-modal-example-questions', JSON.stringify(questions));
+            script.setAttribute('data-modal-open-by-default', 'true');
+            document.head.appendChild(script);
+        }
+
+        // Example 3: Custom questions with enhanced styling
+        function openWidget3() {
+            const customQuestions = [
+                { text: "🚀 How do I deploy this project?", category: "deployment" },
+                { text: "⚙️ What are the configuration options?", category: "config" },
+                { text: "📚 Where can I find documentation?", category: "docs" },
+                { text: "🛠️ How do I customize the widget?", category: "customization" },
+                { text: "🔒 What about security considerations?", category: "security" },
+                { text: "📈 How do I monitor performance?", category: "monitoring" }
+            ];
+
+            const script = document.createElement('script');
+            script.src = 'widget.js';
+            script.setAttribute('data-website-id', 'demo-custom');
+            script.setAttribute('data-project-name', 'Custom Demo');
+            script.setAttribute('data-project-color', '#dc3545');
+            script.setAttribute('data-project-logo', 'https://via.placeholder.com/32x32/dc3545/ffffff?text=C');
+            script.setAttribute('data-modal-title', 'AI Assistant Pro');
+            script.setAttribute('data-modal-example-questions-title', '💡 Try asking:');
+            script.setAttribute('data-modal-ask-ai-input-placeholder', 'Ask me anything about this project...');
+            script.setAttribute('data-modal-example-questions', JSON.stringify(customQuestions));
+            script.setAttribute('data-modal-open-by-default', 'true');
+            document.head.appendChild(script);
+        }
+    </script>
+</body>
 </html>

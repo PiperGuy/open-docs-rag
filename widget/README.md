@@ -1,271 +1,206 @@
-# Open Docs RAG Widget
+# OpenDocs RAG Widget
 
-A customizable AI-powered documentation widget, designed to bring intelligent assistance to your website. Easy to integrate and highly configurable.
+A beautiful, configurable AI-powered documentation widget that brings intelligent assistance to your website. Now with enhanced styling, Roboto font, and flexible question configuration.
 
-## Features
+## ✨ New Features
 
-- 🎨 **Highly Customizable** - Configure colors, styling, behavior, and content through simple data attributes
-- 📱 **Mobile Responsive** - Works seamlessly on desktop, tablet, and mobile devices
-- 🚀 **Easy Integration** - Use as npm package or include via script tag
-- ⚡ **Lightweight** - Minimal bundle size with no external dependencies
-- 🔧 **TypeScript Support** - Full TypeScript definitions included
-- 🎯 **Accessibility** - Built with accessibility best practices
+- **Config-driven questions**: Support for both legacy string format and new structured JSON format
+- **Beautiful Roboto font**: Modern typography throughout the interface
+- **Enhanced animations**: Smooth transitions and micro-interactions
+- **Improved styling**: Gradient backgrounds, better shadows, and modern design
+- **Better accessibility**: Focus states and keyboard navigation
+- **Mobile responsive**: Optimized for all screen sizes
 
-## Quick Start
+## 🚀 Quick Start
 
-### Option 1: Script Tag (Recommended)
+### Script Tag Usage
 
-Simply include the widget script with your configuration:
+Include the widget with a simple script tag and configure it with data attributes:
 
 ```html
-<script
-  async
-  src="https://your-domain.com/open-docs-rag-widget.bundle.js"
-  data-website-id="your-website-id"
-  data-project-name="Your Project"
-  data-project-color="#1D4716"
-  data-project-logo="/logo.svg"
-  data-modal-example-questions="How to get started?, How to deploy?, API documentation"
-  data-modal-disclaimer="This is an AI assistant for your documentation."
-  data-api-endpoint="/api/chat"
+<script 
+    src="widget.js" 
+    data-website-id="your-website-id"
+    data-project-name="Your Project"
+    data-project-color="#007bff"
+    data-project-logo="/logo.svg"
+    data-modal-example-questions="What is this project about?, How do I get started?, What are the main features?"
 ></script>
 ```
 
-### Option 2: NPM Package
-
-Install the package:
+### NPM Package Usage
 
 ```bash
 npm install open-docs-rag-widget
 ```
 
-Use in your project:
-
-```typescript
+```javascript
 import { createWidget } from 'open-docs-rag-widget';
 
 const widget = createWidget({
   websiteId: 'your-website-id',
   projectName: 'Your Project',
-  projectColor: '#1D4716',
+  projectColor: '#007bff',
   projectLogo: '/logo.svg',
   modalExampleQuestions: 'How to get started?, How to deploy?',
   apiEndpoint: '/api/chat'
 });
 
-// Open the widget programmatically
 widget.open();
 ```
 
-## Configuration
+## 📝 Configuration Options
 
 ### Required Parameters
 
-| Parameter            | Description                         | Example              |
-| -------------------- | ----------------------------------- | -------------------- |
-| `data-website-id`    | Unique identifier for your website  | `"my-website-123"`   |
-| `data-project-name`  | Name displayed in the widget header | `"My Documentation"` |
-| `data-project-color` | Primary color (HEX)                 | `"#1D4716"`          |
-| `data-project-logo`  | Logo URL or data URI                | `"/logo.svg"`        |
+- `websiteId`: Unique identifier for your website
+- `projectName`: Name of your project
+- `projectColor`: Primary color for the widget (hex code)
+- `projectLogo`: URL to your project logo
 
-### Optional Parameters
+### Example Questions Configuration
 
-#### Modal Configuration
+The widget now supports two formats for example questions:
 
-- `data-modal-title` - Custom title for the modal
-- `data-modal-disclaimer` - Disclaimer text (supports Markdown)
-- `data-modal-example-questions` - Comma-separated example questions
-- `data-modal-example-questions-title` - Title for example questions section
-- `data-modal-ask-ai-input-placeholder` - Input placeholder text
-
-#### Button Configuration
-
-- `data-button-hide` - Set to `"true"` to hide the default button
-- `data-button-height` - Button height (default: `"54px"`)
-- `data-button-width` - Button width (default: `"48px"`)
-- `data-button-image` - Custom button image URL
-
-#### Styling
-
-- `data-font-family` - Custom font family
-- `data-modal-disclaimer-bg-color` - Disclaimer background color
-- `data-modal-disclaimer-font-size` - Disclaimer font size
-- `data-modal-title-font-size` - Title font size
-- `data-example-question-button-*` - Various button styling options
-
-#### Behavior
-
-- `data-modal-override-open-id` - ID of custom trigger element
-- `data-modal-override-open-class` - Class of custom trigger elements
-- `data-modal-open-by-default` - Open modal automatically
-- `data-modal-open-on-command-k` - Enable Cmd+K shortcut
-
-#### API
-
-- `data-api-endpoint` - Your API endpoint URL
-- `data-api-key` - Optional API key for authentication
-
-## API Integration
-
-The widget expects your API endpoint to:
-
-1. Accept POST requests with JSON body:
-
-```json
-{
-  "question": "User's question",
-  "num_results": 3
-}
-```
-
-2. Return JSON response:
-
-```json
-{
-  "answer": "AI response",
-  "sources": ["optional", "array", "of", "source", "urls"]
-}
-```
-
-Note: The widget will also accept responses with `message` or `response` fields as alternatives to `answer`.
-
-## Advanced Usage
-
-### Custom Triggers
-
-Hide the default button and use your own triggers:
+#### 1. Legacy String Format (Backward Compatible)
 
 ```html
-<script
-  data-button-hide="true"
-  data-modal-override-open-id="my-button"
-  /* other config */
-></script>
-
-<button id="my-button">Ask AI</button>
-```
-
-### Programmatic Control
-
-```typescript
-// Create widget instance
-const widget = createWidget(config);
-
-// Control the widget
-widget.open(); // Open modal
-widget.close(); // Close modal
-widget.destroy(); // Remove widget from DOM
-widget.updateConfig({ projectColor: '#ff0000' }); // Update configuration
-```
-
-### Global API
-
-When using the script tag, the widget exposes a global API:
-
-```javascript
-// Create additional widget instances
-const customWidget = window.OpenDocsRAGWidget.create({
-  websiteId: 'custom-123',
-  projectName: 'Custom Widget',
-  projectColor: '#ff6b6b',
-  projectLogo: '/custom-logo.svg'
-});
-
-customWidget.open();
-```
-
-## Examples
-
-### Basic Implementation
-
-```html
-<script
-  async
-  src="/open-docs-rag-widget.bundle.js"
-  data-website-id="docs-site"
-  data-project-name="My Docs"
-  data-project-color="#007bff"
-  data-project-logo="/logo.svg"
-  data-modal-example-questions="Getting started, API reference, Troubleshooting"
-  data-api-endpoint="/api/chat"
+<script 
+    data-modal-example-questions="What is this project about?, How do I get started?, What are the main features?"
 ></script>
 ```
 
-### Advanced Customization
+#### 2. New Structured JSON Format
 
 ```html
-<script
-  async
-  src="/open-docs-rag-widget.bundle.js"
-  data-website-id="advanced-site"
-  data-project-name="Advanced Docs"
-  data-project-color="#1D4716"
-  data-project-logo="/logo.svg"
-  data-modal-disclaimer="AI-powered assistant. Responses may not be accurate."
-  data-modal-disclaimer-bg-color="#fff3cd"
-  data-modal-disclaimer-text-color="#856404"
-  data-example-question-button-border="2px solid #dee2e6"
-  data-example-question-button-text-color="#495057"
-  data-modal-open-on-command-k="true"
-  data-api-endpoint="/api/chat"
-  data-api-key="your-api-key"
+<script 
+    data-modal-example-questions='[
+        {"text": "What is this project about?", "category": "general"},
+        {"text": "How do I get started?", "category": "getting-started"},
+        {"text": "What are the main features?", "category": "features"},
+        {"text": "How do I configure the widget?", "category": "configuration"}
+    ]'
 ></script>
 ```
 
-## Development
+The structured format allows for:
+- **Categories**: Group questions by topic or purpose
+- **Icons**: Add visual indicators to questions (coming soon)
+- **Extensibility**: Easy to add more properties in the future
 
-### Prerequisites
+### Advanced Configuration Example
 
-- Node.js 16+
-- npm or yarn
+```html
+<script 
+    src="widget.js" 
+    data-website-id="demo-site"
+    data-project-name="Advanced Demo"
+    data-project-color="#6366f1"
+    data-project-logo="https://via.placeholder.com/32x32/6366f1/ffffff?text=A"
+    data-modal-title="AI Assistant Pro"
+    data-modal-example-questions-title="💡 Try asking:"
+    data-modal-ask-ai-input-placeholder="Ask me anything about this project..."
+    data-font-family="Roboto, sans-serif"
+    data-modal-title-font-size="24px"
+    data-example-question-button-font-size="15px"
+    data-example-question-button-padding-x="20px"
+    data-example-question-button-padding-y="12px"
+    data-modal-example-questions='[
+        {"text": "🚀 How do I deploy this project?", "category": "deployment"},
+        {"text": "⚙️ What are the configuration options?", "category": "config"},
+        {"text": "📚 Where can I find documentation?", "category": "docs"},
+        {"text": "🛠️ How do I customize the widget?", "category": "customization"}
+    ]'
+></script>
+```
 
-### Setup
+## 🎨 Styling Features
+
+### Typography
+- **Roboto font**: Modern, clean typography throughout
+- **Responsive font sizes**: Automatically adjusts for different screen sizes
+- **Custom font support**: Override with your preferred font family
+
+### Visual Enhancements
+- **Gradient backgrounds**: Subtle gradients for depth and modern appeal
+- **Improved shadows**: Better depth perception and visual hierarchy
+- **Smooth animations**: Micro-interactions and transitions
+- **Enhanced hover effects**: Interactive feedback for better UX
+
+### Accessibility
+- **Focus states**: Clear visual indicators for keyboard navigation
+- **High contrast**: Readable text and sufficient color contrast
+- **Screen reader support**: Proper ARIA labels and semantic HTML
+
+## 📱 Mobile Responsiveness
+
+The widget is fully responsive and optimized for:
+- Desktop computers
+- Tablets
+- Mobile phones
+- Touch interfaces
+
+## 🔧 API Integration
+
+The widget communicates with your backend API to provide intelligent responses. Configure the API endpoint:
+
+```html
+<script 
+    data-api-endpoint="https://your-api.com/chat"
+    data-api-key="your-api-key"
+></script>
+```
+
+## 🛠️ Development
+
+### Building the Widget
 
 ```bash
 # Install dependencies
 npm install
 
-# Start development server
-npm run dev
-
 # Build for production
 npm run build
 
-# Build just the bundle
-npm run build:bundle
-
-# Build just the npm package
-npm run build:npm
+# Build for development
+npm run dev
 ```
 
 ### Project Structure
 
 ```
-src/
-├── bundle.ts       # Script tag entry point
-├── config.ts       # Configuration parsing
-├── index.ts        # NPM package entry point
-├── styles.css      # Widget styles
-├── types.ts        # TypeScript definitions
-├── widget.ts       # Main widget class
-└── example.html    # Example implementation
+widget/
+├── src/
+│   ├── widget.ts          # Main widget implementation
+│   ├── config.ts          # Configuration parsing
+│   ├── types.ts           # TypeScript type definitions
+│   ├── styles.css         # Widget styling
+│   ├── example.html       # Example usage
+│   └── index.ts           # Entry point
+├── package.json
+├── tsconfig.json
+└── README.md
 ```
 
-## Browser Support
-
-- Chrome 60+
-- Firefox 55+
-- Safari 12+
-- Edge 79+
-
-## License
-
-MIT License - see [LICENSE](LICENSE) file for details.
-
-## Contributing
+## 🤝 Contributing
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## 📄 License
+
+MIT License - see LICENSE file for details.
+
+## 🆘 Support
+
+For support and questions:
+- Create an issue on GitHub
+- Check the documentation
+- Review the example files
+
+---
+
+**Made with ❤️ for better documentation experiences**

@@ -1,3 +1,9 @@
+export interface ExampleQuestion {
+  text: string;
+  category?: string;
+  icon?: string;
+}
+
 export interface WidgetConfig {
   // Required parameters
   websiteId: string;
@@ -8,7 +14,7 @@ export interface WidgetConfig {
   // Modal configuration
   modalTitle?: string;
   modalDisclaimer?: string;
-  modalExampleQuestions?: string;
+  modalExampleQuestions?: string | ExampleQuestion[];
   modalExampleQuestionsTitle?: string;
   modalAskAiInputPlaceholder?: string;
 
